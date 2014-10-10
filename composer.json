@@ -1,0 +1,14 @@
+{
+    "name": "s4if/SIPERPU-CI",
+    "require": {
+        "goodby/csv": "1.1.0",
+        "phpoffice/phpexcel": "1.8.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saiful Habib",
+            "email": "sangpejuang32@gmail.com"
+        }
+    ]
+}
