@@ -672,3 +672,33 @@ ERROR - 2014-10-11 16:47:37 --> 404 Page Not Found --> assets
 ERROR - 2014-10-11 16:47:37 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
 ERROR - 2014-10-11 16:47:37 --> 404 Page Not Found --> assets
 ERROR - 2014-10-11 16:47:37 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 16:49:46 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 16:49:46 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 16:49:46 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 16:49:46 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:42 --> 404 Page Not Found --> welcome
+ERROR - 2014-10-11 18:29:42 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:46 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:46 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:46 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:46 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:48 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:48 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:48 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:48 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:52 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:52 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:53 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:53 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:54 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:54 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:29:54 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:29:54 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:30:02 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:30:02 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:30:03 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:30:03 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:30:42 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:30:42 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106
+ERROR - 2014-10-11 18:30:42 --> 404 Page Not Found --> assets
+ERROR - 2014-10-11 18:30:42 --> Severity: Warning  --> chmod(): Operation not permitted /var/www/html/SIPERPU-CI/system/libraries/Log.php 106

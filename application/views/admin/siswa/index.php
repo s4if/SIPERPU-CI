@@ -145,8 +145,11 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12">
+                &MediumSpace;
+            </div>
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="row-border" cellspacing="0" width="94%" id="data_table">
                     <thead>
                         <tr>
                             <td>NIS</td>
@@ -200,4 +203,9 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#data_table').dataTable();
+    } );
+</script>
 <?=$footer?>
