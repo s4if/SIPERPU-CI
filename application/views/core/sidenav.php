@@ -36,12 +36,12 @@
             <table class="table">
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/guru/index">Guru</a>
+                        <a href="<?=base_url();?>admin/guru/index">Guru</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/siswa/index">Siswa</a>
+                        <a href="<?=base_url();?>admin/siswa/index">Siswa</a>
                     </td>
                 </tr>
             </table>
@@ -60,27 +60,27 @@
             <table class="table">
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/rekap/harian">Harian</a>
+                        <a href="<?=base_url();?>admin/rekap/harian">Harian</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/rekap/mingguan">Mingguan</a>
+                        <a href="<?=base_url();?>admin/rekap/mingguan">Mingguan</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/rekap/bulanan">Bulanan</a>
+                        <a href="<?=base_url();?>admin/rekap/bulanan">Bulanan</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/rekap/semester">Semester</a>
+                        <a href="<?=base_url();?>admin/rekap/semester">Semester</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>public/rekap/tahunan">Tahunan</a>
+                        <a href="<?=base_url();?>admin/rekap/tahunan">Tahunan</a>
                     </td>
                 </tr>
             </table>

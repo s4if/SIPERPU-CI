@@ -12,7 +12,7 @@
  * @author s4if
  */
 
-Class User extends CI_Model
+Class Model_user extends CI_Model
 {
     function login($nip, $password)
     {
