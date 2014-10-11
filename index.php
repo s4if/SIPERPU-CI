@@ -1,5 +1,10 @@
 <?php
 
+//Enable Error Reporting
+error_reporting(-1);
+ini_set('display_errors', 'On');
+//End Of Enable Error Reporting
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
