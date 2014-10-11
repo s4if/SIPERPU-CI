@@ -5,7 +5,7 @@ class Verify_login extends MY_Controller {
   function __construct()
   {
     parent::__construct();
-    $this->load->model('model_user','',TRUE);
+    $this->load->model('model_user','user',TRUE);
   }
 
   function index()
