@@ -1,3 +1,5 @@
+<?php
+
 /* 
  * The MIT License
  *
@@ -22,7 +24,23 @@
  * THE SOFTWARE.
  */
 
-$(document).ready(function() {
-    $.fn.datepicker.defaults.format = "yyyy/mm/dd";
-    //$('#data_table').dataTable();
-} );
+
+?>
+<?=$header?>
+<?=$navbar?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-warning col-md-offset-4 col-md-4">
+            <div class="panel-heading">
+                <h3><p class="text-center"><span class="glyphicon glyphicon-align-center glyphicon-warning-sign"></span></p></h3>
+            </div>
+            <div class="panel-body">
+                <h3><?=$errors?></h3>
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-sm btn-warning" href="<?=  base_url()?>presensi/index">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $footer ?>

@@ -50,12 +50,27 @@ class Siswa extends MY_Controller {
     }
     else
     {
-      //If no session, redirect to login page
+      $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
       redirect('login', 'refresh');
     }
   }
+    
+    public function cek_login(){
+        {
+            if($this->session->userdata('logged_in'))
+            {
+                return;
+            }
+            else
+            {
+                $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
+                redirect('login', 'refresh');
+            }
+         }
+    }
   
     public function tambah(){
+        $this->cek_login();
         $data = [
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
@@ -66,6 +81,7 @@ class Siswa extends MY_Controller {
     }
     
     public function do_add(){
+        $this->cek_login();
         $data_insert = $_POST;
         if($this->siswa->data_exist($_POST['nis'])){
             $this->session->set_flashdata("errors",[0 => "Maaf, NIS yang dimasukkan sudah terpakai!"]);
@@ -83,19 +99,21 @@ class Siswa extends MY_Controller {
     }
     
     public function edit($nis){
+        $this->cek_login();
         $raw = $this->siswa->get_data($nis);
         $data_siswa = $raw[0];
         $data = [
             'siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tambah Guru']),
+            'header' => $this->header(['title' => 'Edit Guru']),
             'footer'=> $this->footer()
         ];
         $this->load->view("admin/siswa/edit",$data);
     }
     
     public function do_edit(){
+        $this->cek_login();
         $nis = $_POST['nis'];
         $data_insert = $_POST;
         $res = $this->siswa->update_data('siswa', $data_insert, ['nis' => $nis]);
@@ -109,6 +127,7 @@ class Siswa extends MY_Controller {
     }
     
     public function hapus($nis){
+        $this->cek_login();
         $where = ['nis' => $nis];
         $res = $this->siswa->delete_data('siswa', $where);
         if($res >= 1){

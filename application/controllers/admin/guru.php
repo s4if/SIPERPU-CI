@@ -28,34 +28,49 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start(); //we need to call PHP's session object to access it through CI
 class Guru extends MY_Controller {
 
-  function __construct()
-  {
-    parent::__construct();
-    $this->load->model("model_guru","guru");
-  }
+    function __construct()
+    {
+      parent::__construct();
+      $this->load->model("model_guru","guru");
+    }
 
-  function index()
-  {
-    if($this->session->userdata('logged_in'))
+    function index()
     {
-        $data_guru = $this->guru->get_data();
-        $data = [
-            'data_guru' => $data_guru,
-            'navbar' => $this->navbar(['nav_location' => 'admin']),
-            'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tabel Guru']),
-            'footer'=> $this->footer()
-         ];
-         $this->load->view("admin/guru/index",$data);
+      if($this->session->userdata('logged_in'))
+      {
+          $data_guru = $this->guru->get_data();
+          $data = [
+              'data_guru' => $data_guru,
+              'navbar' => $this->navbar(['nav_location' => 'admin']),
+              'sidenav' => $this->sidenav(),
+              'header' => $this->header(['title' => 'Tabel Guru']),
+              'footer'=> $this->footer()
+           ];
+           $this->load->view("admin/guru/index",$data);
+      }
+      else
+      {
+        $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
+        redirect('login', 'refresh');
+      }
     }
-    else
-    {
-      //If no session, redirect to login page
-      redirect('login', 'refresh');
+    
+    public function cek_login(){
+        {
+            if($this->session->userdata('logged_in'))
+            {
+                return;
+            }
+            else
+            {
+                $this->session->set_flashdata("errors",[0 => "Akses dihentikan, Harap Login Dulu!"]);
+                redirect('login', 'refresh');
+            }
+         }
     }
-  }
   
     public function tambah(){
+        $this->cek_login();
         $data = [
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
@@ -66,6 +81,7 @@ class Guru extends MY_Controller {
     }
     
     public function do_add(){
+        $this->cek_login();
         $data_insert = $_POST;
         $data_insert['password'] = md5("qwerty");
         if($this->guru->data_exist($_POST['nip'])){
@@ -84,19 +100,21 @@ class Guru extends MY_Controller {
     }
     
     public function edit($nip){
+        $this->cek_login();
         $raw = $this->guru->get_data($nip);
         $data_guru = $raw[0];
         $data = [
             'guru' => $data_guru,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tambah Guru']),
+            'header' => $this->header(['title' => 'Edit Guru']),
             'footer'=> $this->footer()
         ];
         $this->load->view("admin/guru/edit",$data);
     }
     
     public function do_edit(){
+        $this->cek_login();
         $nip = $_POST['nip'];
         $data_insert = $_POST;
         $res = $this->guru->update_data('guru', $data_insert, ['nip' => $nip]);
@@ -110,6 +128,7 @@ class Guru extends MY_Controller {
     }
     
     public function hapus($nip){
+        $this->cek_login();
         $where = ['nip' => $nip];
         $res = $this->guru->delete_data('guru', $where);
         if($res >= 1){

@@ -41,8 +41,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="<?php if(isset($nav_location)) {
-                    echo ($nav_location == 'absensi')?'active':''; 
-                }?>"><a href="<?php echo base_url();?>presensi/home">Presensi</a></li>
+                    echo ($nav_location == 'presensi')?'active':''; 
+                }?>"><a href="<?php echo base_url();?>presensi">Presensi</a></li>
                 <li class="<?php if(isset($nav_location)) {
                     echo ($nav_location == 'admin')?'active':''; 
                 }?>"><a href="<?php echo base_url();?>admin/home">Admin</a></li>

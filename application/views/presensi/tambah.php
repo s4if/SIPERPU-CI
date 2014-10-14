@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 s4if.
@@ -23,10 +23,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 ?>
 <?=$header?>
-<div class="container" style="margin-top:30px">
-    <div class="col-md-4 col-md-offset-4">
+<?=$navbar?>
+<div class="container-fluid">
+    <div class="row">
         <?php if(empty($this->session->flashdata('notices')) === false){
             ?>
         <div class="alert alert-success alert-dismissible">
@@ -51,22 +53,49 @@
         </div>
         <?php
         } ?>
-        <div class="panel panel-primary">
-            <div class="panel-heading"><h3 class="panel-title"><strong>Silahkan Login</strong></h3></div>
+    </div>
+    <div class="row">
+        <div class="panel panel-info col-md-offset-4 col-md-4">
+            <div class="panel-heading">
+                <h3><p class="text-center">Data diri</p></h3>
+            </div>
             <div class="panel-body">
-                <?php echo validation_errors(); ?>
-                <?php echo form_open('verify_login'); ?>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="NIP" name="nip" value="<?php echo isset($data['nip'])? $data['nip']:'';?>" required="true">
+                <form class="form-horizontal">
+                    <div class="form-group error">
+                        <label class="col-sm-3 control-label">NIS :</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static"><?=$siswa['nis'];?></p>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Password" name="password" required="true">
+                        <label class="col-sm-3 control-label">Nama :</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static"><?=$siswa['nama'];?></p>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-default col-xs-4">Masuk</button>
-                    <a href="<?= base_url()."presensi/"?>" class="btn btn-sm btn-warning col-xs-6 col-xs-offset-2">Halaman Presensi</a>
-                </form>
+                    <!-- -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">P/L :</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static"><?=$siswa['jenis_kelamin'];?></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Kelas :</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static"><?=$siswa['kelas'];?>-<?=$siswa['jurusan'];?>-<?=$siswa['paralel'];?></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <a class="btn btn-sm btn-primary" 
+                               href="<?=base_url();?>presensi/konfirmasi/<?=$siswa['nis'];?>">OK</a>
+                            <a class="btn btn-sm btn-warning" href="<?=base_url();?>presensi/index">Batal</a>
+                        </div>
+                    </div>
+                </form> 
             </div>
         </div>
     </div>
 </div>
-<?= $footer ?>
+<?=$footer?>
