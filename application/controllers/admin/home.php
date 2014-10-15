@@ -31,6 +31,7 @@ class Home extends MY_Controller {
   function __construct()
   {
     parent::__construct();
+    $this->load->model('model_user','user');
   }
 
   function index()
@@ -60,8 +61,52 @@ class Home extends MY_Controller {
     session_destroy();
     redirect('admin/home', 'refresh');
   }
-
-
+  
+  public function password(){
+    if($this->session->userdata('logged_in'))
+    {
+        $data = [
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Ganti Password']),
+            'footer'=> $this->footer()
+        ];
+        $this->load->view("admin/edit_passwd",$data);
+    }
+    else
+    {
+      //If no session, redirect to login page
+      redirect('login', 'refresh');
+    }
+  }
+  
+    public function ch_passwd(){
+        $strd_passwd = $this->input->post('stored_password', TRUE);
+        $new_passwd = $this->input->post('new_password', TRUE);
+        $co_passwd = $this->input->post('confirm_password', TRUE);
+        if($new_passwd === $co_passwd){
+            $sess_data = $this->session->userdata('logged_in');
+            $nip = $sess_data['nip'];
+            if($this->user->check_password($nip,$strd_passwd)){
+                $this->excecute_passwd($nip, $new_passwd);
+            }else{
+                $this->session->set_flashdata("errors",[0 => "Maaf, Password lama anda salah. Silahkan cek kembali!"]);
+                redirect('admin/home/password', 'refresh');
+            }
+        }else{
+            $this->session->set_flashdata("errors",[0 => "Maaf, Password baru dan konfirmasi password tidak sama. Silahkan cek kembali!"]);
+            redirect('admin/home/password', 'refresh');
+        }
+    }
+    
+    private function excecute_passwd($nip, $new_passwd){
+        $res = $this->user->update_password($nip, $new_passwd);
+        if($res){
+            $this->session->set_flashdata("notices",[0 => "Password sudah berhasil diganti."]);
+                redirect('admin/home', 'refresh');
+        }else{
+            $this->session->set_flashdata("errors",[0 => "Maaf, Password lama anda salah. Silahkan cek kembali!"]);
+            redirect('admin/home/password', 'refresh');
+        }
+    }
 }
-
-?>

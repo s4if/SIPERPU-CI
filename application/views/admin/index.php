@@ -33,6 +33,30 @@
             <?=$sidenav?>
         </div>
         <div class="col-md-10">
+            <?php if(empty($this->session->flashdata('notices')) === false){
+                ?>
+            <div class="alert alert-success alert-dismissible">
+            <?php
+                echo '<button type="button" class="close" data-dismiss="alert"><p>' . 
+                        '<span aria-hidden="true">&times;</span><span class="sr-only">'.
+                        'Close</span></button>'.
+                        implode('</p><p>', $this->session->flashdata('notices')) . '</p>';	
+                ?>
+            </div>
+            <?php
+            }
+            if(empty($this->session->flashdata('errors')) === false){
+                ?>
+            <div class="alert alert-warning alert-dismissible">
+            <?php
+                echo '<button type="button" class="close" data-dismiss="alert"><p>' . 
+                        '<span aria-hidden="true">&times;</span><span class="sr-only">'.
+                        'Close</span></button>'.
+                        implode('</p><p>', $this->session->flashdata('errors')) . '</p></span></button>';	
+                ?>
+            </div>
+            <?php
+            } ?>
             <h2>Selamat datang : <?=$name ?></h2>
         </div>
     </div>

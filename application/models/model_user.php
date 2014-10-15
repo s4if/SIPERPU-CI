@@ -34,5 +34,15 @@ Class Model_user extends CI_Model
         }
 
     }
+            
+    function check_password($nip, $passwd){
+        $data = $this->db->query("select password from guru Where nip = '".$nip."'");
+        $stored_passwd =  $data->row()->password;
+        return (md5($passwd) === $stored_passwd)? true : false;
+    }
+            
+    function update_password($nip, $passwd){
+        $res = $this->db->update("guru", ['password' => md5($passwd)],['nip' => $nip]);
+        return $res;
+    }
 }
-?>
