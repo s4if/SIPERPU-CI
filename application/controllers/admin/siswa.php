@@ -43,7 +43,7 @@ class Siswa extends MY_Controller {
             'data_siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tabel Guru']),
+            'header' => $this->header(['title' => 'Tabel Siswa']),
             'footer'=> $this->footer()
          ];
          $this->load->view("admin/siswa/index",$data);
@@ -74,7 +74,7 @@ class Siswa extends MY_Controller {
         $data = [
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tambah Guru']),
+            'header' => $this->header(['title' => 'Tambah Siswa']),
             'footer'=> $this->footer()
         ];
         $this->load->view("admin/siswa/tambah",$data);
@@ -106,7 +106,7 @@ class Siswa extends MY_Controller {
             'siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Edit Guru']),
+            'header' => $this->header(['title' => 'Edit Siswa']),
             'footer'=> $this->footer()
         ];
         $this->load->view("admin/siswa/edit",$data);
@@ -149,5 +149,22 @@ class Siswa extends MY_Controller {
             $this->session->set_flashdata("errors",[0 => "Import Data Gagal!"]);
             redirect('admin/siswa');
         }
+    }
+    
+    public function filter(){
+        $filter = [
+            'kelas' => $_POST['kelas'],
+            'jurusan' => $_POST['jurusan'],
+            'paralel' => $_POST['paralel']
+        ];
+        $data_siswa = $this->siswa->get_filtered_data($filter);
+        $data = [
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Siswa']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/siswa/index",$data);
     }
 }

@@ -87,4 +87,23 @@ Class Model_siswa extends CI_Model
         }
         return $row_data;
     }
+    
+    public function get_filtered_data($params){
+        $where = [];
+        if($params['paralel'] === '0' && $params['jurusan'] === 'empty' &&  !($params['kelas'] === 'empty') ){
+            $where = ['kelas' => $params['kelas']];
+        }elseif ($params['paralel'] === '0' && $params['kelas'] === 'empty' &&  !($params['jurusan'] === 'empty')) {
+            $where = ['jurusan' => $params['jurusan']];
+        }elseif ($params['paralel'] === '0' && !($params['jurusan'] === 'empty') && !($params['kelas'] === 'empty')) {
+            $where = ['kelas' => $params['kelas'], 'jurusan' => $params['jurusan']];
+        }elseif ($params['kelas'] === 'empty' && !($params['jurusan'] === 'empty') && !($params['paralel'] === '0')) {
+            $where = ['jurusan' => $params['jurusan'], 'paralel' => $params['paralel']];
+        }elseif(!($params['paralel'] === '0') && !($params['jurusan'] === 'empty') && !($params['kelas'] === 'empty')){
+            $where = ['kelas' => $params['kelas'], 'jurusan' => $params['jurusan'], 'paralel' => $params['paralel']];
+        }else{
+            
+        }
+        $query = $this->db->get_where("siswa",$where);
+        return $query->result_array();
+    }
 }

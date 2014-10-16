@@ -99,14 +99,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="container-fluid">
-                                        <form role="form form-inline" method="post" action="<?=base_url();?>translator.php">
+                                        <form role="form form-inline" method="post" action="<?=base_url();?>admin/siswa/filter">
                                             <div class="form-group col-xs-12">
-                                                <div class="col-xs-5">
+                                                <div class="col-xs-4">
                                                     <label class="control-label">
                                                         <small>Kelas - Jurusan - Paralel :</small>
                                                     </label>
                                                 </div>
-                                                <div class="input-group-sm col-xs-2">
+                                                <div class="input-group-sm col-xs-3">
                                                     <select class="form-control" name="kelas">
                                                         <option value="empty" >--</option>
                                                         <option value="X">X</option>
@@ -114,7 +114,7 @@
                                                         <option value="XII">XII</option>
                                                     </select>
                                                 </div>
-                                                <div class="input-group-sm col-xs-2">
+                                                <div class="input-group-sm col-xs-3">
                                                     <select class="form-control" name="jurusan">
                                                         <option value="empty" >--</option>
                                                         <option value="AP" >AP</option>
@@ -124,10 +124,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="input-group-sm col-xs-2">
-                                                    <input type="text" class="form-control" name="paralel" 
-                                                           value="">
-                                                    <input type="text" class="form-control hidden" name="url" value="siswa/lihat">
-                                                    <input type="text" class="form-control hidden" name="kode" value="siswa">
+                                                    <input type="text" class="form-control" name="paralel" value="0">
                                                 </div>
                                             </div>
                                             <div class="form-group">
