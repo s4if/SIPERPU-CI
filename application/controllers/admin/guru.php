@@ -139,4 +139,16 @@ class Guru extends MY_Controller {
             redirect('admin/guru/edit/'.$nip);
         }
     }
+    
+    public function import(){
+        $fileUrl = $_FILES['file']["tmp_name"];
+        $res = $this->guru->import_data($fileUrl);
+        if($res){
+            $this->session->set_flashdata("notices",[0 => "Import Data Berhasil!"]);
+            redirect('admin/guru');
+        } else {
+            $this->session->set_flashdata("errors",[0 => "Import Data Gagal!"]);
+            redirect('admin/guru');
+        }
+    }
 }

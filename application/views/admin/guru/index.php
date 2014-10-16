@@ -75,11 +75,10 @@
                                     <h4 class="modal-title" id="ModalImportLabel>">Pilih File</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form role="form" method="post" action="<?=base_url();?>admin/" enctype="multipart/form-data">
+                                    <form role="form" method="post" action="<?=base_url();?>admin/guru/import" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>Masukkan Input</label>
                                             <input type="file" id="file" name="file">
-                                            <input type="text" class="form-control hidden" name="url" value="guru/import">
                                         </div>
                                         <button type="submit" class="btn btn-default">Submit</button>
                                     </form>

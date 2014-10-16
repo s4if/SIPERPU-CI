@@ -44,4 +44,42 @@ Class Model_guru extends CI_Model
             return false;
         }
     }
+    
+    public function import_data($file_url){
+        $objPHPExcel = PHPExcel_IOFactory::load($file_url);
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+        $i = 0;
+        $this->db->trans_start();
+        foreach ($objWorksheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+            if($i>0){
+                $row_data = $this->get_row_data($cellIterator);
+                $this->db->query("REPLACE INTO guru (nip, nama, jenis_kelamin, password) "
+                        . "VALUES ('".$row_data['nip']."', '".$row_data['nama']."', '".$row_data['jenis_kelamin']."', '".  md5('qwerty')."')");
+            }
+            $i++;
+        }
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }  else {
+            return true;
+        }
+    }
+    
+    private function get_row_data($cellIterator){
+        $field_name = [
+            0 => 'nip',
+            1 => 'nama',
+            2 => 'jenis_kelamin'
+        ];
+        $row_data = [];
+        $j = 0;
+        foreach ($cellIterator as $cell) {
+            $row_data[$field_name[$j]] = $cell->getValue();
+            $j++;
+        }
+        return $row_data;
+    }
 }
