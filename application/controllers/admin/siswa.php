@@ -138,4 +138,16 @@ class Siswa extends MY_Controller {
             redirect('admin/siswa/edit/'.$nis);
         }
     }
+    
+    public function import(){
+        $fileUrl = $_FILES['file']["tmp_name"];
+        $res = $this->siswa->import_data($fileUrl);
+        if($res){
+            $this->session->set_flashdata("notices",[0 => "Import Data Berhasil!"]);
+            redirect('admin/siswa');
+        } else {
+            $this->session->set_flashdata("errors",[0 => "Import Data Gagal!"]);
+            redirect('admin/siswa');
+        }
+    }
 }
