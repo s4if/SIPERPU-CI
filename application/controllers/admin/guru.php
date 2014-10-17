@@ -34,39 +34,17 @@ class Guru extends MY_Controller {
       $this->load->model("model_guru","guru");
     }
 
-    function index()
-    {
-      if($this->session->userdata('logged_in'))
-      {
-          $data_guru = $this->guru->get_data();
-          $data = [
-              'data_guru' => $data_guru,
-              'navbar' => $this->navbar(['nav_location' => 'admin']),
-              'sidenav' => $this->sidenav(),
-              'header' => $this->header(['title' => 'Tabel Guru']),
-              'footer'=> $this->footer()
-           ];
-           $this->load->view("admin/guru/index",$data);
-      }
-      else
-      {
-        $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
-        redirect('login', 'refresh');
-      }
-    }
-    
-    public function cek_login(){
-        {
-            if($this->session->userdata('logged_in'))
-            {
-                return;
-            }
-            else
-            {
-                $this->session->set_flashdata("errors",[0 => "Akses dihentikan, Harap Login Dulu!"]);
-                redirect('login', 'refresh');
-            }
-         }
+    function index(){
+        $this->cek_login();
+        $data_guru = $this->guru->get_data();
+        $data = [
+            'data_guru' => $data_guru,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Guru']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/guru/index",$data);
     }
   
     public function tambah(){
@@ -141,6 +119,7 @@ class Guru extends MY_Controller {
     }
     
     public function import(){
+        $this->cek_login();
         $fileUrl = $_FILES['file']["tmp_name"];
         $res = $this->guru->import_data($fileUrl);
         if($res){

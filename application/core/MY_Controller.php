@@ -51,4 +51,18 @@ class MY_Controller extends CI_Controller {
     public function sidenav($data = []){
         return $this->load->view("core/sidenav", $data, true);
     }
+    
+    public function cek_login(){
+        {
+            if($this->session->userdata('logged_in'))
+            {
+                return;
+            }
+            else
+            {
+                $this->session->set_flashdata("errors",[0 => "Akses dihentikan, Harap Login Dulu!"]);
+                redirect('login', 'refresh');
+            }
+         }
+    }
 }

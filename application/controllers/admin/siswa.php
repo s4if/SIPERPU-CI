@@ -34,10 +34,8 @@ class Siswa extends MY_Controller {
     $this->load->model("model_siswa","siswa");
   }
 
-  function index()
-  {
-    if($this->session->userdata('logged_in'))
-    {
+    function index(){
+        $this->cek_login();
         $data_siswa = $this->siswa->get_data();
         $data = [
             'data_siswa' => $data_siswa,
@@ -48,27 +46,7 @@ class Siswa extends MY_Controller {
          ];
          $this->load->view("admin/siswa/index",$data);
     }
-    else
-    {
-      $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
-      redirect('login', 'refresh');
-    }
-  }
     
-    public function cek_login(){
-        {
-            if($this->session->userdata('logged_in'))
-            {
-                return;
-            }
-            else
-            {
-                $this->session->set_flashdata("errors",[0 => "Akses Ditolak, Harap Login Dulu!"]);
-                redirect('login', 'refresh');
-            }
-         }
-    }
-  
     public function tambah(){
         $this->cek_login();
         $data = [
@@ -140,6 +118,7 @@ class Siswa extends MY_Controller {
     }
     
     public function import(){
+        $this->cek_login();
         $fileUrl = $_FILES['file']["tmp_name"];
         $res = $this->siswa->import_data($fileUrl);
         if($res){
@@ -152,6 +131,7 @@ class Siswa extends MY_Controller {
     }
     
     public function filter(){
+        $this->cek_login();
         $filter = [
             'kelas' => $_POST['kelas'],
             'jurusan' => $_POST['jurusan'],

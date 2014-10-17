@@ -28,13 +28,16 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start(); //we need to call PHP's session object to access it through CI
 class Home extends MY_Controller {
 
-    function __construct(){
-        parent::__construct();
-        $this->load->model('model_user','user');
-    }
+  function __construct()
+  {
+    parent::__construct();
+    $this->load->model('model_user','user');
+  }
 
-    function index(){
-        $this->cek_login();
+  function index()
+  {
+    if($this->session->userdata('logged_in'))
+    {
         $session_data = $this->session->userdata('logged_in');
         $data = [
             'name' => $session_data['nama'],
@@ -45,15 +48,23 @@ class Home extends MY_Controller {
          ];
          $this->load->view("admin/index",$data);
     }
-  
-    function logout(){
-        $this->session->unset_userdata('logged_in');
-        session_destroy();
-        redirect('admin/home', 'refresh');
+    else
+    {
+      //If no session, redirect to login page
+      redirect('login', 'refresh');
     }
+  }
   
-    public function password(){
-        $this->cek_login();
+  function logout()
+  {
+    $this->session->unset_userdata('logged_in');
+    session_destroy();
+    redirect('admin/home', 'refresh');
+  }
+  
+  public function password(){
+    if($this->session->userdata('logged_in'))
+    {
         $data = [
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
@@ -61,11 +72,15 @@ class Home extends MY_Controller {
             'footer'=> $this->footer()
         ];
         $this->load->view("admin/edit_passwd",$data);
-        
     }
+    else
+    {
+      //If no session, redirect to login page
+      redirect('login', 'refresh');
+    }
+  }
   
     public function ch_passwd(){
-        $this->cek_login();
         $strd_passwd = $this->input->post('stored_password', TRUE);
         $new_passwd = $this->input->post('new_password', TRUE);
         $co_passwd = $this->input->post('confirm_password', TRUE);
