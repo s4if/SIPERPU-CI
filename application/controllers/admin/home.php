@@ -34,16 +34,22 @@ class Home extends MY_Controller {
     }
 
     function index(){
-        $this->cek_login();
-        $session_data = $this->session->userdata('logged_in');
-        $data = [
-            'name' => $session_data['nama'],
-            'navbar' => $this->navbar(['nav_location' => 'admin']),
-            'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Beranda Admin']),
-            'footer'=> $this->footer()
-         ];
-         $this->load->view("admin/index",$data);
+        if($this->session->userdata('logged_in')){
+            $session_data = $this->session->userdata('logged_in');
+            $data = [
+                'name' => $session_data['nama'],
+                'navbar' => $this->navbar(['nav_location' => 'admin']),
+                'sidenav' => $this->sidenav(),
+                'header' => $this->header(['title' => 'Beranda Admin']),
+                'footer'=> $this->footer()
+             ];
+             $this->load->view("admin/index",$data);
+        }
+        else
+        {
+            redirect('login', 'refresh');
+        }
+        
     }
   
     function logout(){

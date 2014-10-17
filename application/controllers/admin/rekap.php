@@ -26,87 +26,74 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start(); //we need to call PHP's session object to access it through CI
-class Home extends MY_Controller {
+class Rekap extends MY_Controller {
 
-  function __construct()
-  {
-    parent::__construct();
-    $this->load->model('model_user','user');
-  }
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('model_rekap','rekap');
+    }
 
-  function index()
-  {
-    if($this->session->userdata('logged_in'))
-    {
-        $session_data = $this->session->userdata('logged_in');
-        $data = [
-            'name' => $session_data['nama'],
-            'navbar' => $this->navbar(['nav_location' => 'admin']),
-            'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Beranda Admin']),
-            'footer'=> $this->footer()
-         ];
-         $this->load->view("admin/index",$data);
-    }
-    else
-    {
-      //If no session, redirect to login page
-      redirect('login', 'refresh');
-    }
-  }
-  
-  function logout()
-  {
-    $this->session->unset_userdata('logged_in');
-    session_destroy();
-    redirect('admin/home', 'refresh');
-  }
-  
-  public function password(){
-    if($this->session->userdata('logged_in'))
-    {
-        $data = [
-            'navbar' => $this->navbar(['nav_location' => 'admin']),
-            'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Ganti Password']),
-            'footer'=> $this->footer()
-        ];
-        $this->load->view("admin/edit_passwd",$data);
-    }
-    else
-    {
-      //If no session, redirect to login page
-      redirect('login', 'refresh');
-    }
-  }
-  
-    public function ch_passwd(){
-        $strd_passwd = $this->input->post('stored_password', TRUE);
-        $new_passwd = $this->input->post('new_password', TRUE);
-        $co_passwd = $this->input->post('confirm_password', TRUE);
-        if($new_passwd === $co_passwd){
-            $sess_data = $this->session->userdata('logged_in');
-            $nip = $sess_data['nip'];
-            if($this->user->check_password($nip,$strd_passwd)){
-                $this->excecute_passwd($nip, $new_passwd);
-            }else{
-                $this->session->set_flashdata("errors",[0 => "Maaf, Password lama anda salah. Silahkan cek kembali!"]);
-                redirect('admin/home/password', 'refresh');
-            }
-        }else{
-            $this->session->set_flashdata("errors",[0 => "Maaf, Password baru dan konfirmasi password tidak sama. Silahkan cek kembali!"]);
-            redirect('admin/home/password', 'refresh');
-        }
+    function index(){
+        $this->harian(date("Y-m-d"));
     }
     
-    private function excecute_passwd($nip, $new_passwd){
-        $res = $this->user->update_password($nip, $new_passwd);
-        if($res){
-            $this->session->set_flashdata("notices",[0 => "Password sudah berhasil diganti."]);
-                redirect('admin/home', 'refresh');
-        }else{
-            $this->session->set_flashdata("errors",[0 => "Maaf, Password lama anda salah. Silahkan cek kembali!"]);
-            redirect('admin/home/password', 'refresh');
+    function harian($tanggal){
+        $this->cek_login();
+        if($tanggal === "null"){
+            $tanggal = date("Y-m-d");
         }
+        $data_siswa = $this->rekap->get_rekap_harian($tanggal);
+        $data = [
+            'tanggal' => $tanggal,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Rekap Harian']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/rekap/harian",$data);
+    }
+    
+    public function redir_harian(){
+        $url = $_POST['url'];
+        $param = $_POST['param'];
+        $params = explode("/", $param);
+        $tanggal = $params[0]."-".$params[1]."-".$params[2];
+        redirect('admin/rekap/'.$url."/".$tanggal, 'refresh');
+    }
+    
+    public function export_harian(){
+        $this->cek_login();
+        $tanggal = $_POST['tanggal'];
+        $data = $this->rekap->get_rekap_harian($tanggal);
+        $this->export($data, $_POST['filename']);
+    }
+    
+    private function export($data, $file_name){
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        $rowCount = 1;
+        $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, 'No');
+        $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, 'Kelas'); 
+        $objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, 'Jurusan');
+        $objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, 'Paralel');
+        $objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, 'Jumlah');
+        $rowCount++;
+        foreach ($data as $row){
+            $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $rowCount-1);
+            $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $row['out_kelas']);
+            $objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, $row['out_jurusan']); 
+            $objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, $row['out_paralel']);
+            $objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, ($row['count']==null)?0:$row['count']);
+            $rowCount++;
+        }
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$file_name.'.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter->save('php://output');
+        exit;
     }
 }

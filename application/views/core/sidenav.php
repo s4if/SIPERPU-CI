@@ -60,7 +60,7 @@
             <table class="table">
                 <tr>
                     <td>
-                        <a href="<?=base_url();?>admin/rekap/harian">Harian</a>
+                        <a href="<?=base_url();?>admin/rekap">Harian</a>
                     </td>
                 </tr>
                 <tr>

@@ -158,7 +158,12 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#data_table').dataTable();
+        $('#data_table').dataTable({
+            "scrollY"       : "400px",
+            "scrollCollapse": true,
+            "paging"        : false,
+            "search"        : false
+        });
     } );
 </script>
 <?=$footer?>
