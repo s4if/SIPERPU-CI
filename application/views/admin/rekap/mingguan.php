@@ -60,15 +60,14 @@
                 } ?>
             </div>
             <div class="col-sm-11 col-sm-offset-1">
-                Rekap Tanggal : <?=$data['tanggalAwal']?> S/d <?=$data['tanggalAkhir']?> &MediumSpace;
+                Rekap Tanggal : <?=$tanggal_awal?> S/d <?=$tanggal_akhir?> &MediumSpace;
                 <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#ModalSort">
                     <span class="glyphicon glyphicon-calendar"></span>
                     Ubah Tanggal
                 </a>
-                <form class="form-inline" name="myform" action="<?=base_url();?>Export.php" method="POST">
-                    <input type="hidden" name="query" value="<?=$data['query']?>">
-                    <input type="hidden" name="" value="<?=$data['tanggalAwal']?>">
-                    <input type="hidden" name="filename" value="rekap-mingguan [<?=$data['tanggalAwal']?> s/d <?=$data['tanggalAkhir']?>]">
+                <form class="form-inline" name="myform" action="<?=base_url();?>admin/rekap/export_mingguan" method="POST">
+                    <input type="hidden" name="tanggal_awal" value="<?=$tanggal_awal?>">
+                    <input type="hidden" name="filename" value="rekap-mingguan [<?=$tanggal_awal?> s/d <?=$tanggal_akhir?>]">
                        <a class="btn btn-sm btn-info" onclick="document.myform.submit()">
                     Export</a>
                 </form>
@@ -77,21 +76,21 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="ModalImportLabel>">Urut Berdasarkan :</h4>
+                                <h4 class="modal-title" id="ModalImportLabel>">Set Tanggal :</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                    <form role="form form-inline" method="post" action="<?=base_url();?>translator.php">
+                                    <form role="form form-inline" method="post" action="<?=base_url();?>admin/rekap/redir_mingguan">
                                         <div class="form-group col-xs-12">
                                             <div class="col-xs-3">
                                                 <label class="control-label">
-                                                    <small>Tanggal : </small>
+                                                    <small>Tanggal Awal : </small>
                                                 </label>
                                             </div>
                                             <div class="input-group-sm col-xs-6">
                                                 <input type="date" data-provide="datepicker" class="form-control" name="param" 
-                                                       value="<?=$data['tanggalAwal']?>">
-                                                <input type="text" class="form-control hidden" name="url" value="rekap/mingguan">
+                                                       value="<?=$tanggal_awal?>">
+                                                <input type="text" class="form-control hidden" name="url" value="mingguan">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -108,7 +107,7 @@
                 </div>
             </div>
             <div class=" col-sm-10 col-sm-offset-1">
-                <table class="table table-striped table-responsive">
+                <table class="row-border" cellspacing="0" width="94%" id="data_table">
                     <thead>
                         <tr>
                             <td>Kelas</td>
@@ -134,4 +133,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#data_table').dataTable({
+            "scrollY":        "400px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
+    } );
+</script>
 <?=$footer?>

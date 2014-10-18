@@ -63,10 +63,53 @@ class Rekap extends MY_Controller {
         redirect('admin/rekap/'.$url."/".$tanggal, 'refresh');
     }
     
+    function mingguan($tanggal_awal = 'null'){
+        $this->cek_login();
+        if($tanggal_awal === 'null'){
+            $tanggal = new DateTime(date("Y-m-d"));
+            $tanggal->modify("-6 day");
+            $tanggal_awal = $tanggal->format("Y-m-d");
+        }else{
+            
+        }
+        $tanggal = new DateTime($tanggal_awal);
+        $tanggal->modify("+6 day");
+        $tanggal_akhir = $tanggal->format("Y-m-d");
+        $data_siswa = $this->rekap->get_rekap_mingguan($tanggal_awal, $tanggal_akhir);
+        $data = [
+            'tanggal_awal' => $tanggal_awal,
+            'tanggal_akhir' => $tanggal_akhir,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Rekap Mingguan']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/rekap/mingguan",$data);
+    }
+    
+    public function redir_mingguan(){
+        $url = $_POST['url'];
+        $param = $_POST['param'];
+        $params = explode("/", $param);
+        $tanggal = $params[0]."-".$params[1]."-".$params[2];
+        redirect('admin/rekap/'.$url."/".$tanggal, 'refresh');
+    }
+    
     public function export_harian(){
         $this->cek_login();
         $tanggal = $_POST['tanggal'];
         $data = $this->rekap->get_rekap_harian($tanggal);
+        $this->export($data, $_POST['filename']);
+    }
+    
+    public function export_mingguan(){
+        $this->cek_login();
+        $tanggal_awal = $_POST['tanggal_awal'];
+        $tanggal = new DateTime($tanggal_awal);
+        $tanggal->modify("+6 day");
+        $tanggal_akhir = $tanggal->format("Y-m-d");
+        $data = $this->rekap->get_rekap_mingguan($tanggal_awal, $tanggal_akhir);
         $this->export($data, $_POST['filename']);
     }
     
