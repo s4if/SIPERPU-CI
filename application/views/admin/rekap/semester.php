@@ -60,15 +60,15 @@
                 } ?>
             </div>
             <div class="col-sm-11 col-sm-offset-1">
-                Rekap Semester : <?=$data['semester']?> - <?=$data['tahun']?> &MediumSpace;
+                Rekap Semester : <?=$semester?> - <?=$tahun?> &MediumSpace;
                 <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#ModalSort">
                     <span class="glyphicon glyphicon-calendar"></span>
                     Ubah Semester
                 </a>
-                <form class="form-inline" name="myform" action="<?=base_url();?>Export.php" method="POST">
-                    <input type="hidden" name="query" value="<?=$data['query']?>">
-                    <input type="hidden" name="tanggal" value="<?=$data['tanggal']?>">
-                    <input type="hidden" name="filename" value="rekap-Semester-<?=$data['semester']?>">
+                <form class="form-inline" name="myform" action="<?=base_url();?>admin/rekap/export_semester" method="POST">
+                    <input type="hidden" name="semester" value="<?=$semester?>">
+                    <input type="hidden" name="tahun" value="<?=$tahun?>">
+                    <input type="hidden" name="filename" value="rekap-Semester-<?=$semester?>-<?=$tahun?>">
                        <a class="btn btn-sm btn-info" onclick="document.myform.submit()">
                     Export</a>
                 </form>
@@ -81,27 +81,27 @@
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                    <form role="form form-inline" method="post" action="<?=base_url();?>translator.php">
+                                    <form role="form form-inline" method="post" action="<?=base_url();?>admin/rekap/redir_semester">
                                         <div class="form-group col-xs-12">
-                                            <div class="col-xs-2">
+                                            <div class="col-xs-3">
                                                 <label class="control-label">
-                                                    <small>Bulan : </small>
+                                                    <small>Semester : </small>
                                                 </label>
                                             </div>
                                             <div class="input-group-sm col-xs-4">
-                                                <select class="form-control" name="param">
+                                                <select class="form-control" name="semester">
                                                     <option value="Ganjil">Ganjil</option>
                                                     <option value="Genap">Genap</option>
                                                 </select>
-                                                <input type="text" class="form-control hidden" name="url" value="rekap/semester">
+                                                <input type="text" class="form-control hidden" name="url" value="semester">
                                             </div>
                                             <div class="col-xs-2">
                                                 <label class="control-label">
                                                     <small>Tahun : </small>
                                                 </label>
                                             </div>
-                                            <div class="input-group-sm col-xs-4">
-                                                <input type="text" class="form-control" name="param2" value="<?=$data['tahun'];?>">
+                                            <div class="input-group-sm col-xs-3">
+                                                <input type="text" class="form-control" name="tahun" value="<?=$tahun;?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -118,7 +118,7 @@
                 </div>
             </div>
             <div class=" col-sm-10 col-sm-offset-1">
-                <table class="table table-striped table-responsive">
+                <table class="row-border" cellspacing="0" width="94%" id="data_table">
                     <thead>
                         <tr>
                             <td>Kelas</td>
@@ -144,4 +144,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#data_table').dataTable({
+            "scrollY":        "400px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
+    } );
+</script>
 <?=$footer?>

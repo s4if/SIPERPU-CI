@@ -129,6 +129,37 @@ class Rekap extends MY_Controller {
         redirect('admin/rekap/'.$url."/".$bulan."/".$tahun, 'refresh');
     }
     
+    function semester($semester = 'Ganjil', $tahun = 'null'){
+        $this->cek_login();
+        $tanggal = date("Y-m-d");
+        $tg = explode('-', $tanggal);
+        if($tahun ==='null'){
+            $tahun = $tg[0];
+        }
+        $smstr = $this->get_semester($semester);
+        $bulan_awal = $smstr['bulan_awal'];
+        $bulan_akhir =$smstr['bulan_akhir'];
+        $data_siswa = $this->rekap->get_rekap_semester($bulan_awal, $bulan_akhir, $tahun);
+        $data = [
+            'semester' => $semester,
+            'tahun' => $tahun,
+            'tanggal' => $tanggal,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Rekap Mingguan']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/rekap/semester",$data);
+    }
+    
+    public function redir_semester(){
+        $url = $_POST['url'];
+        $bulan = $_POST['semester'];
+        $tahun = $_POST['tahun'];
+        redirect('admin/rekap/'.$url."/".$bulan."/".$tahun, 'refresh');
+    }
+    
     public function export_harian(){
         $this->cek_login();
         $tanggal = $_POST['tanggal'];
@@ -148,10 +179,19 @@ class Rekap extends MY_Controller {
     
     public function export_bulanan(){
         $this->cek_login();
-        $this->cek_login();
         $bulan = $_POST['bulan'];
         $tahun = $_POST['tahun'];
         $data = $this->rekap->get_rekap_bulanan($bulan, $tahun);
+        $this->export($data, $_POST['filename']);
+    }
+    
+    public function export_semester(){
+        $this->cek_login();
+        $smstr = $this->get_semester($_POST['semester']);
+        $bulan_awal = $smstr['bulan_awal'];
+        $bulan_akhir =$smstr['bulan_akhir'];
+        $tahun = $_POST['tahun'];
+        $data = $this->rekap->get_rekap_semester($bulan_awal, $bulan_akhir, $tahun);
         $this->export($data, $_POST['filename']);
     }
     
@@ -208,6 +248,26 @@ class Rekap extends MY_Controller {
                 return "Nopember";
             case 12 :
                 return "Desember";
+        }
+    }
+    
+    public function get_semester($semester){
+        if($semester === 'Ganjil' || $semester === 'Genap'){
+            if($semester === 'Genap' ){
+                return [
+                    'bulan_awal' => 1,
+                    'bulan_akhir' => 6,
+                    'semester' => "Genap"
+                ];
+            }  else {
+                return [
+                    'bulan_awal' => 7,
+                    'bulan_akhir' => 12,
+                    'semester' => "Ganjil"
+                ];
+            }
+        }else{
+            return false;
         }
     }
 }
