@@ -96,6 +96,39 @@ class Rekap extends MY_Controller {
         redirect('admin/rekap/'.$url."/".$tanggal, 'refresh');
     }
     
+    function bulanan($bulan = 'null', $tahun = 'null'){
+        $this->cek_login();
+        $tanggal = date("Y-m-d");
+        $tg = explode('-', $tanggal);
+        if($bulan === 'null'){
+            $bulan = $tg[1];
+        }
+        if($tahun ==='null'){
+            $tahun = $tg[0];
+        }
+        $nama_bulan = $this->nama_bulan($bulan);
+        $data_siswa = $this->rekap->get_rekap_bulanan($bulan, $tahun);
+        $data = [
+            'nama_bulan' => $nama_bulan,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'tanggal' => $tanggal,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Rekap Mingguan']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/rekap/bulanan",$data);
+    }
+    
+    public function redir_bulanan(){
+        $url = $_POST['url'];
+        $bulan = $_POST['bulan'];
+        $tahun = $_POST['tahun'];
+        redirect('admin/rekap/'.$url."/".$bulan."/".$tahun, 'refresh');
+    }
+    
     public function export_harian(){
         $this->cek_login();
         $tanggal = $_POST['tanggal'];
@@ -110,6 +143,15 @@ class Rekap extends MY_Controller {
         $tanggal->modify("+6 day");
         $tanggal_akhir = $tanggal->format("Y-m-d");
         $data = $this->rekap->get_rekap_mingguan($tanggal_awal, $tanggal_akhir);
+        $this->export($data, $_POST['filename']);
+    }
+    
+    public function export_bulanan(){
+        $this->cek_login();
+        $this->cek_login();
+        $bulan = $_POST['bulan'];
+        $tahun = $_POST['tahun'];
+        $data = $this->rekap->get_rekap_bulanan($bulan, $tahun);
         $this->export($data, $_POST['filename']);
     }
     
@@ -138,5 +180,34 @@ class Rekap extends MY_Controller {
         $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
         $objWriter->save('php://output');
         exit;
+    }
+    
+    private function nama_bulan($angka){
+        switch ($angka){
+            case 1 :
+                return "Januari";
+            case 2 :
+                return "Pebruari";
+            case 3 :
+                return "Maret";
+            case 4 :
+                return "April";
+            case 5 :
+                return "Mei";
+            case 6 :
+                return "Juni";
+            case 7 :
+                return "Juli";
+            case 8 :
+                return "Agustus";
+            case 9 :
+                return "September";
+            case 10 :
+                return "Oktober";
+            case 11 :
+                return "Nopember";
+            case 12 :
+                return "Desember";
+        }
     }
 }

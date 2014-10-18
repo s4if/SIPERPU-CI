@@ -60,15 +60,15 @@
                 } ?>
             </div>
             <div class="col-sm-11 col-sm-offset-1">
-                Rekap Bulan : <?=$data['namaBulan']?>&MediumSpace;
+                Rekap Bulan : <?=$nama_bulan?> - <?=$tahun?>&MediumSpace;
                 <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#ModalSort">
                     <span class="glyphicon glyphicon-calendar"></span>
                     Ubah Bulan
                 </a>
-                <form class="form-inline" name="myform" action="<?=base_url();?>Export.php" method="POST">
-                    <input type="hidden" name="query" value="<?=$data['query']?>">
-                    <input type="hidden" name="tanggal" value="<?=$data['tanggal']?>">
-                    <input type="hidden" name="filename" value="rekap-Bulanan-<?=$data['namaBulan']?>">
+                <form class="form-inline" name="myform" action="<?=base_url();?>admin/rekap/export_bulanan" method="POST">
+                    <input type="hidden" name="bulan" value="<?=$bulan?>">
+                    <input type="hidden" name="tahun" value="<?=$tahun?>">
+                    <input type="hidden" name="filename" value="rekap-Bulanan-<?=$nama_bulan?>-<?=$tahun?>">
                        <a class="btn btn-sm btn-info" onclick="document.myform.submit()">
                     Export</a>
                 </form>
@@ -81,15 +81,15 @@
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                    <form role="form form-inline" method="post" action="<?=base_url();?>translator.php">
+                                    <form role="form form-inline" method="post" action="<?=base_url();?>admin/rekap/redir_bulanan">
                                         <div class="form-group col-xs-12">
-                                            <div class="col-xs-3">
+                                            <div class="col-xs-2">
                                                 <label class="control-label">
                                                     <small>Bulan : </small>
                                                 </label>
                                             </div>
-                                            <div class="input-group-sm col-xs-6">
-                                                <select class="form-control" name="param">
+                                            <div class="input-group-sm col-xs-4">
+                                                <select class="form-control" name="bulan">
                                                     <option value="1">Januari</option>
                                                     <option value="2">Pebruari</option>
                                                     <option value="3">Maret</option>
@@ -103,7 +103,15 @@
                                                     <option value="11">Nopember</option>
                                                     <option value="12">Desember</option>
                                                 </select>
-                                                <input type="text" class="form-control hidden" name="url" value="rekap/bulanan">
+                                                <input type="text" class="form-control hidden" name="url" value="bulanan">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <label class="control-label">
+                                                    <small>Tahun : </small>
+                                                </label>
+                                            </div>
+                                            <div class="input-group-sm col-xs-2">
+                                                <input type="text" class="form-control input" name="tahun" value="<?=$tahun?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -120,7 +128,7 @@
                 </div>
             </div>
             <div class=" col-sm-10 col-sm-offset-1">
-                <table class="table table-striped table-responsive">
+                <table class="row-border" cellspacing="0" width="94%" id="data_table">
                     <thead>
                         <tr>
                             <td>Kelas</td>
@@ -146,4 +154,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#data_table').dataTable({
+            "scrollY":        "400px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
+    } );
+</script>
 <?=$footer?>
