@@ -116,7 +116,7 @@ class Rekap extends MY_Controller {
             'data_siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tabel Rekap Mingguan']),
+            'header' => $this->header(['title' => 'Tabel Rekap Bulanan']),
             'footer'=> $this->footer()
          ];
          $this->load->view("admin/rekap/bulanan",$data);
@@ -147,7 +147,7 @@ class Rekap extends MY_Controller {
             'data_siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
-            'header' => $this->header(['title' => 'Tabel Rekap Mingguan']),
+            'header' => $this->header(['title' => 'Tabel Rekap Semester']),
             'footer'=> $this->footer()
          ];
          $this->load->view("admin/rekap/semester",$data);
@@ -158,6 +158,40 @@ class Rekap extends MY_Controller {
         $bulan = $_POST['semester'];
         $tahun = $_POST['tahun'];
         redirect('admin/rekap/'.$url."/".$bulan."/".$tahun, 'refresh');
+    }
+    
+    function tahunan($tahun_awal = 'null', $tahun_akhir = 'null'){
+        $this->cek_login();
+        $tanggal = date("Y-m-d");
+        if($tahun_awal === 'null'){
+            $thn = new DateTime(date("Y-m-d"));
+            if($thn->format("m")<=6){
+                $thn->modify("-1 year");
+            }
+            $tahun_awal = $thn->format("Y");
+        }
+        if($tahun_akhir === 'null'){
+            $tahun_akhir = $tahun_awal+1;
+        }
+        $data_siswa = $this->rekap->get_rekap_tahunan($tahun_awal, $tahun_akhir);
+        $data = [
+            'tahun_awal' => $tahun_awal,
+            'tahun_akhir' => $tahun_akhir,
+            'tanggal' => $tanggal,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Rekap Tahunan']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/rekap/tahunan",$data);
+    }
+    
+    public function redir_tahunan(){
+        $url = $_POST['url'];
+        $tahun_awal = $_POST['tahun_awal'];
+        $tahun_akhir = $tahun_awal+1;
+        redirect('admin/rekap/'.$url."/".$tahun_awal."/".$tahun_akhir, 'refresh');
     }
     
     public function export_harian(){
@@ -192,6 +226,14 @@ class Rekap extends MY_Controller {
         $bulan_akhir =$smstr['bulan_akhir'];
         $tahun = $_POST['tahun'];
         $data = $this->rekap->get_rekap_semester($bulan_awal, $bulan_akhir, $tahun);
+        $this->export($data, $_POST['filename']);
+    }
+    
+    public function export_tahunan(){
+        $this->cek_login();
+        $tahun_awal = $_POST['tahun_awal'];
+        $tahun_akhir = $_POST['tahun_akhir'];
+        $data = $this->rekap->get_rekap_tahunan($tahun_awal, $tahun_akhir);
         $this->export($data, $_POST['filename']);
     }
     

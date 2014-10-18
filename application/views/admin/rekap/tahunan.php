@@ -60,15 +60,15 @@
                 } ?>
             </div>
             <div class="col-sm-11 col-sm-offset-1">
-                Rekap Tahun : <?=$data['tahunAwal']?> - <?=$data['tahunAkhir']?> &MediumSpace;
+                Rekap Tahun : <?=$tahun_awal?> - <?=$tahun_akhir?> &MediumSpace;
                 <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#ModalSort">
                     <span class="glyphicon glyphicon-calendar"></span>
                     Ubah Tahun
                 </a>
-                <form class="form-inline" name="myform" action="<?=base_url();?>Export.php" method="POST">
-                    <input type="hidden" name="query" value="<?=$data['query']?>">
-                    <input type="hidden" name="tanggal" value="<?=$data['tanggal']?>">
-                    <input type="hidden" name="filename" value="rekap-Tahun-[<?=$data['tahunAwal']?>-<?=$data['tahunAkhir']?>]">
+                <form class="form-inline" name="myform" action="<?=base_url();?>admin/rekap/export_tahunan" method="POST">
+                    <input type="hidden" name="tahun_awal" value="<?=$tahun_awal?>">
+                    <input type="hidden" name="tahun_akhir" value="<?=$tahun_akhir?>">
+                    <input type="hidden" name="filename" value="rekap-Tahun-[<?=$tahun_awal?>-<?=$tahun_akhir?>]">
                        <a class="btn btn-sm btn-info" onclick="document.myform.submit()">
                     Export</a>
                 </form>
@@ -81,16 +81,16 @@
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                    <form role="form form-inline" method="post" action="<?=base_url();?>translator.php">
+                                    <form role="form form-inline" method="post" action="<?=base_url();?>admin/rekap/redir_tahunan">
                                         <div class="form-group col-xs-12">
-                                            <div class="col-xs-2">
+                                            <div class="col-xs-3">
                                                 <label class="control-label">
                                                     <small>Tahun Awal : </small>
                                                 </label>
                                             </div>
                                             <div class="input-group-sm col-xs-4">
-                                                <input type="text" class="form-control hidden" name="url" value="rekap/tahunan">
-                                                <input type="text" class="form-control" name="param" value="<?=$data['tahunAwal'];?>">
+                                                <input type="text" class="form-control hidden" name="url" value="tahunan">
+                                                <input type="text" class="form-control" name="tahun_awal" value="<?=$tahun_awal?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class=" col-sm-10 col-sm-offset-1">
-                <table class="table table-striped table-responsive">
+                <table class="row-border" cellspacing="0" width="94%" id="data_table">
                     <thead>
                         <tr>
                             <td>Kelas</td>
@@ -133,4 +133,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#data_table').dataTable({
+            "scrollY":        "400px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
+    } );
+</script>
 <?=$footer?>
