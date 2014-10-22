@@ -70,6 +70,20 @@ Class Model_siswa extends CI_Model
         }
     }
     
+    public function delete_many_data($arr_nis){
+        $this->db->trans_start();
+        foreach ($arr_nis as $nis) {
+            $where = ['nis' => $nis];
+            $this->db->delete('siswa', $where);
+        }
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){
+            return false;
+        }  else {
+            return true;
+        }
+    }
+    
     private function get_row_data($cellIterator){
         $field_name = [
             0 => 'nis',

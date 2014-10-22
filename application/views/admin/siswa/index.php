@@ -139,6 +139,10 @@
                             </div>
                         </div>
                     </div>
+                    <a href="<?=base_url();?>admin/siswa/hapus_banyak/<?php echo ($filter === 'null')? '' : $filter; ?>" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        Hapus Banyak
+                    </a>
                 </div>
             </div>
             <div class="col-sm-12">

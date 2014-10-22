@@ -38,6 +38,7 @@ class Siswa extends MY_Controller {
         $this->cek_login();
         $data_siswa = $this->siswa->get_data();
         $data = [
+            'filter' => 'empty/empty/0',
             'data_siswa' => $data_siswa,
             'navbar' => $this->navbar(['nav_location' => 'admin']),
             'sidenav' => $this->sidenav(),
@@ -113,7 +114,7 @@ class Siswa extends MY_Controller {
             redirect('admin/siswa');
         } else {
             $this->session->set_flashdata("errors",[0 => "Hapus Data Gagal!"]);
-            redirect('admin/siswa/edit/'.$nis);
+            redirect('admin/siswa/');
         }
     }
     
@@ -137,6 +138,35 @@ class Siswa extends MY_Controller {
             'jurusan' => $_POST['jurusan'],
             'paralel' => $_POST['paralel']
         ];
+        $str_filter = $_POST['kelas']."/".$_POST['jurusan']."/".$_POST['paralel'];
+        $data_siswa = $this->siswa->get_filtered_data($filter);
+        $data = [
+            'filter' => $str_filter,
+            'data_siswa' => $data_siswa,
+            'navbar' => $this->navbar(['nav_location' => 'admin']),
+            'sidenav' => $this->sidenav(),
+            'header' => $this->header(['title' => 'Tabel Siswa']),
+            'footer'=> $this->footer()
+         ];
+         $this->load->view("admin/siswa/index",$data);
+    }
+    
+    public function hapus_banyak($kelas = 'empty', $jurusan = 'empty', $paralel = '0'){
+        $this->cek_login();
+        $filter = [];
+        if(empty($_POST['kelas'])){
+            $filter = [
+                'kelas' => $kelas,
+                'jurusan' => $jurusan,
+                'paralel' => $paralel
+            ];
+        }else{
+            $filter = [
+                'kelas' => $_POST['kelas'],
+                'jurusan' => $_POST['jurusan'],
+                'paralel' => $_POST['paralel']
+            ];
+        }
         $data_siswa = $this->siswa->get_filtered_data($filter);
         $data = [
             'data_siswa' => $data_siswa,
@@ -145,6 +175,19 @@ class Siswa extends MY_Controller {
             'header' => $this->header(['title' => 'Tabel Siswa']),
             'footer'=> $this->footer()
          ];
-         $this->load->view("admin/siswa/index",$data);
+         $this->load->view("admin/siswa/hapus",$data);
+    }
+    
+    public function do_hapus_banyak(){
+        $this->cek_login();
+        $arr_nis = (isset($_POST['hapus']))?$_POST['hapus']:[];
+        $res = $this->siswa->delete_many_data($arr_nis);
+        if($res >= 1){
+            $this->session->set_flashdata("notices",[0 => "Hapus Data Berhasil!"]);
+            redirect('admin/siswa');
+        } else {
+            $this->session->set_flashdata("errors",[0 => "Hapus Data Gagal!"]);
+            redirect('admin/siswa/');
+        }
     }
 }
