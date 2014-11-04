@@ -29,11 +29,31 @@
  *
  * @author s4if
  */
+
+// Same as bootstrap.php
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
 class MY_Controller extends CI_Controller {
     
+    protected $em;
+            
     function __construct()
     {
         parent::__construct();
+        //--------------------------------------------------------------------//
+        // This MUST be SAME with bootstrap.php
+        $isDevMode = true;
+        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/application/entities/"), $isDevMode);
+        $conn = array(
+            'driver'   => 'pdo_mysql',
+            'user'     => 'root',
+            'password' => 'zaraki',
+            'dbname'   => 'siperpu_2',
+        );
+
+        // obtaining the entity manager
+        $this->em = EntityManager::create($conn, $config);
     }
     
     public function header($data = []){

@@ -53,6 +53,17 @@ if (defined('ENVIRONMENT'))
 
 /*
  *---------------------------------------------------------------
+ * COMPOSER AUTOLOADER
+ *---------------------------------------------------------------
+ *
+ * This is mandatory when you want to use codeigniter alongside
+ * with composer.
+ *
+ */
+	require_once "vendor/autoload.php";
+
+/*
+ *---------------------------------------------------------------
  * SYSTEM FOLDER NAME
  *---------------------------------------------------------------
  *
