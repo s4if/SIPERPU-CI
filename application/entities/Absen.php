@@ -34,22 +34,22 @@
  * @Entity @Table(name="absen")
  */
 class Absen {
-    
+
     /**
      * @Id @Column(type="integer") @GeneratedValue(strategy="IDENTITY")
      **/
     protected $id;
-    
+
     /**
      * @Column(type="date")
      **/
     protected $tanggal;
-    
+
     /**
      * @Column(type="time")
      **/
     protected $waktu;
-    
+
     /**
      * @ManyToMany(targetEntity="Siswa")
      * @JoinTable(name="siswa_absen",
@@ -57,5 +57,29 @@ class Absen {
      * inverseJoinColumns={@JoinColumn(name="siswa_nis", referencedColumnName="nis", unique=true)})
      **/
     protected $siswa;
-    
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getTanggal() {
+        return $this->tanggal;
+    }
+
+    public function getWaktu() {
+        return $this->waktu;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setTanggal($tanggal) {
+        $this->tanggal = $tanggal;
+    }
+
+    public function setWaktu($waktu) {
+        $this->waktu = $waktu;
+    }
+
 }
