@@ -1,9 +1,5 @@
-Options -MultiViews
-RewriteEngine On
-
-RewriteBase /SIPERPU-CI/
-
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteEngine on
+RewriteCond $1 !^(index\.php|public|\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
-
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?$1
